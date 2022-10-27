@@ -6,9 +6,16 @@ const App = () => {
 
 	const handleAdd = (e) => {
 		e.preventDefault();
-		const newPerson = { name: newName };
-		setPersons(persons.concat(newPerson));
-		setNewName("");
+
+		const checkName = (obj) => obj.name === newName;
+
+		if (persons.some(checkName)) {
+			alert(`${newName} is already added to the phonebook`);
+		} else {
+			const newPerson = { name: newName };
+			setPersons(persons.concat(newPerson));
+			setNewName("");
+		}
 	};
 
 	const handleNameInput = (e) => {
