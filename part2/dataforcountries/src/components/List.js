@@ -1,16 +1,11 @@
-import Country from "./Country";
+import CountryInfo from "./CountryInfo";
+import Countries from "./Countries";
 
 const List = ({ data }) => {
 	if (data.length === 1) {
-		return <Country data={data} />;
+		return <CountryInfo data={data[0]} />;
 	} else if (data.length <= 10) {
-		return (
-			<div>
-				{data.map((country) => (
-					<div>{country.name.common}</div>
-				))}
-			</div>
-		);
+		return <Countries data={data} />;
 	}
 	return <p>too many matches, specify another filter</p>;
 };

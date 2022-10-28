@@ -14,8 +14,6 @@ function App() {
 		});
 	}, []);
 
-	console.log(filteredCountries);
-
 	const handleChange = (e) => {
 		setSearch(e.target.value);
 
