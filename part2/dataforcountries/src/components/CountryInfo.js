@@ -1,4 +1,23 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Weather from "./Weather";
+
 const CountryInfo = ({ data }) => {
+	const [weatherData, setWeatherData] = useState([]);
+
+	const capital = data.capital[0];
+	const APIkey = process.env.REACT_APP_API_KEY;
+
+	useEffect(() => {
+		axios
+			.get(
+				`https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${APIkey}`
+			)
+			.then((res) => {
+				setWeatherData(res.data);
+			});
+	}, []);
+
 	if (data.length !== 0) {
 		let countryLanguages = Object.values(data.languages);
 
@@ -14,6 +33,7 @@ const CountryInfo = ({ data }) => {
 					))}
 				</ul>
 				<img src={data.flags["png"]} alt="" />
+				<Weather country={data} weather={weatherData} />
 			</div>
 		);
 	}

@@ -17,7 +17,7 @@ const Country = ({ data }) => {
 			<button onClick={handleClick}>
 				{countryInfo.length === 0 ? "show" : "hide"}
 			</button>
-			<CountryInfo data={countryInfo} />
+			{countryInfo.length !== 0 ? <CountryInfo data={countryInfo} /> : ""}
 		</div>
 	);
 };
