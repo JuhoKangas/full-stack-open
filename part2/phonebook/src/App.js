@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import personServices from "./services/persons";
 
-const Person = ({ name, number }) => {
+const Person = ({ name, number, handleDelete }) => {
 	return (
 		<div>
-			{name} {number}
+			{name} {number} <button onClick={handleDelete}>delete</button>
 		</div>
 	);
 };
@@ -47,9 +47,14 @@ const Filter = (props) => {
 	);
 };
 
-const Persons = ({ data }) => {
+const Persons = ({ data, handleDelete }) => {
 	return data.map((person) => (
-		<Person key={person.id} name={person.name} number={person.number} />
+		<Person
+			handleDelete={() => handleDelete(person.id)}
+			key={person.id}
+			name={person.name}
+			number={person.number}
+		/>
 	));
 };
 
@@ -103,6 +108,18 @@ const App = () => {
 		setFilteredList(filteredArr);
 	};
 
+	const handleDeleteOf = (id) => {
+		personServices
+			.deletePerson(id)
+			.then((res) => {
+				setPersons(persons.filter((p) => p.id !== id));
+			})
+			.catch((error) => {
+				console.log("Person was already deleted");
+				setPersons(persons.filter((p) => p.id !== id));
+			});
+	};
+
 	return (
 		<div>
 			<Title title={"Phonebook"} />
@@ -117,9 +134,9 @@ const App = () => {
 			/>
 			<Title title={"Numbers"} />
 			{search === "" ? (
-				<Persons data={persons} />
+				<Persons handleDelete={handleDeleteOf} data={persons} />
 			) : (
-				<Persons data={filteredList} />
+				<Persons handleDelete={handleDeleteOf} data={filteredList} />
 			)}
 		</div>
 	);
