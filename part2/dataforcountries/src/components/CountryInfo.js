@@ -16,6 +16,7 @@ const CountryInfo = ({ data }) => {
 			.then((res) => {
 				setWeatherData(res.data);
 			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	if (data.length !== 0) {
