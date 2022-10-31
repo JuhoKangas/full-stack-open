@@ -50,7 +50,7 @@ const Filter = (props) => {
 const Persons = ({ data, handleDelete }) => {
 	return data.map((person) => (
 		<Person
-			handleDelete={() => handleDelete(person.id)}
+			handleDelete={() => handleDelete(person.id, person.name)}
 			key={person.id}
 			name={person.name}
 			number={person.number}
@@ -108,16 +108,18 @@ const App = () => {
 		setFilteredList(filteredArr);
 	};
 
-	const handleDeleteOf = (id) => {
-		personServices
-			.deletePerson(id)
-			.then((res) => {
-				setPersons(persons.filter((p) => p.id !== id));
-			})
-			.catch((error) => {
-				console.log("Person was already deleted");
-				setPersons(persons.filter((p) => p.id !== id));
-			});
+	const handleDeleteOf = (id, name) => {
+		if (window.confirm(`Delete ${name}?`)) {
+			personServices
+				.deletePerson(id)
+				.then((res) => {
+					setPersons(persons.filter((p) => p.id !== id));
+				})
+				.catch((error) => {
+					console.log("Person was already deleted");
+					setPersons(persons.filter((p) => p.id !== id));
+				});
+		}
 	};
 
 	return (
