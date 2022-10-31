@@ -77,7 +77,6 @@ const App = () => {
 			const newPerson = {
 				name: newName,
 				number: newNumber,
-				id: persons.length + 1,
 			};
 			personServices.create(newPerson).then((addedPerson) => {
 				console.log(addedPerson);
