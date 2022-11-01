@@ -71,13 +71,39 @@ const App = () => {
 			.then((returnedData) => setPersons(returnedData));
 	}, []);
 
+	const updatePerson = () => {
+		if (
+			window.confirm(
+				`${newName} is already added to phonebook, replace the old number with a new one?`
+			)
+		) {
+			const oldPerson = persons.find((p) => p.name === newName);
+			const newPerson = {
+				...oldPerson,
+				number: newNumber,
+			};
+
+			personServices
+				.update(oldPerson.id, newPerson)
+				.then((returnedPerson) => {
+					setNewName("");
+					setNewNumber("");
+					setPersons(
+						persons.map((p) =>
+							p.id === oldPerson.id ? returnedPerson : p
+						)
+					);
+				});
+		}
+	};
+
 	const handleAdd = (e) => {
 		e.preventDefault();
 
 		const checkName = (obj) => obj.name === newName;
 
 		if (persons.some(checkName)) {
-			alert(`${newName} is already added to the phonebook`);
+			updatePerson();
 		} else {
 			const newPerson = {
 				name: newName,
