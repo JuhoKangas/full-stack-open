@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import personServices from "./services/persons";
+import Notification from "./components/Notification";
 
 const Person = ({ name, number, handleDelete }) => {
 	return (
@@ -64,6 +65,7 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState("");
 	const [search, setSearch] = useState("");
 	const [filteredList, setFilteredList] = useState([]);
+	const [notificationMessage, setNotificationMessage] = useState(null);
 
 	useEffect(() => {
 		personServices
@@ -77,6 +79,7 @@ const App = () => {
 				`${newName} is already added to phonebook, replace the old number with a new one?`
 			)
 		) {
+			setNotificationMessage(`Changed ${newName}`);
 			const oldPerson = persons.find((p) => p.name === newName);
 			const newPerson = {
 				...oldPerson,
@@ -93,12 +96,25 @@ const App = () => {
 							p.id === oldPerson.id ? returnedPerson : p
 						)
 					);
+					setTimeout(() => {
+						setNotificationMessage(null);
+					}, 3000);
+				})
+				.catch((err) => {
+					setNotificationMessage(
+						`Information of ${newName} has already been removed from the server`
+					);
+					setPersons(persons.filter((p) => p.name !== newName));
+					setTimeout(() => {
+						setNotificationMessage(null);
+					}, 3000);
 				});
 		}
 	};
 
 	const handleAdd = (e) => {
 		e.preventDefault();
+		setNotificationMessage(`Added ${newName}`);
 
 		const checkName = (obj) => obj.name === newName;
 
@@ -116,6 +132,9 @@ const App = () => {
 				setNewNumber("");
 			});
 		}
+		setTimeout(() => {
+			setNotificationMessage(null);
+		}, 3000);
 	};
 
 	const handleNameInput = (e) => {
@@ -151,6 +170,7 @@ const App = () => {
 	return (
 		<div>
 			<Title title={"Phonebook"} />
+			<Notification message={notificationMessage} />
 			<Filter search={search} handleSearch={handleSearch} />
 			<Title title={"add a new"} />
 			<PersonForm
