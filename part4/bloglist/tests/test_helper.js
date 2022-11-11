@@ -1,4 +1,3 @@
-const { notesInDb } = require('../../../notes_server/tests/test_helper')
 const Blog = require('../models/blog')
 
 const initialBlogs = [
