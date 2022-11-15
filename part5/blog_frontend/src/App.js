@@ -76,6 +76,19 @@ const App = () => {
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
+      <h2>create new</h2>
+      <form>
+        title:
+        <input type="text" />
+        <br />
+        author:
+        <input type="text" />
+        <br />
+        url:
+        <input type="text" />
+        <br />
+        <button type="submit">create</button>
+      </form>
     </div>
   )
 }
