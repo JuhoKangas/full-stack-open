@@ -4,6 +4,7 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import ErrorMessage from './components/ErrorMessage'
 import NotificationMessage from './components/NotificationMessage'
+import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -92,10 +93,12 @@ const App = () => {
       <NotificationMessage message={notificationMessage} />
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>logout</button>
+      <Togglable buttonLabel="new note">
+        <BlogForm addBlog={handleAddBlog} />
+      </Togglable>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
-      <BlogForm addBlog={handleAddBlog} />
     </div>
   )
 }
