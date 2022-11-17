@@ -62,6 +62,12 @@ const App = () => {
     })
   }
 
+  const handleDeleteBlog = (blog) => {
+    blogService.deleteBlog(blog.id).then(() => {
+      setBlogs(blogs.filter((blogs) => blogs.id !== blog.id))
+    })
+  }
+
   const handleLikeBlog = (blog) => {
     const newBlog = blog
     newBlog.likes += 1
@@ -116,7 +122,12 @@ const App = () => {
         <BlogForm addBlog={handleAddBlog} />
       </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} likeBlog={handleLikeBlog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          likeBlog={handleLikeBlog}
+          deleteBlog={handleDeleteBlog}
+        />
       ))}
     </div>
   )
