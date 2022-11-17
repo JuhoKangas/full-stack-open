@@ -63,9 +63,11 @@ const App = () => {
   }
 
   const handleDeleteBlog = (blog) => {
-    blogService.deleteBlog(blog.id).then(() => {
-      setBlogs(blogs.filter((blogs) => blogs.id !== blog.id))
-    })
+    if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+      blogService.deleteBlog(blog.id).then(() => {
+        setBlogs(blogs.filter((blogs) => blogs.id !== blog.id))
+      })
+    }
   }
 
   const handleLikeBlog = (blog) => {
