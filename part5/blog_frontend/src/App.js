@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -18,7 +19,10 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    blogService.getAll().then((blogs) => {
+      blogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(blogs)
+    })
   }, [])
 
   useEffect(() => {
@@ -36,6 +40,7 @@ const App = () => {
     try {
       const createdBlog = await blogService.create(newBlogObject)
       setBlogs(blogs.concat(createdBlog))
+      sortBlogs()
       setNotificationMessage(
         `${newBlogObject.title} by ${newBlogObject.author} added!`
       )
@@ -48,6 +53,20 @@ const App = () => {
         setErrorMessage(null)
       }, 5000)
     }
+  }
+
+  const sortBlogs = () => {
+    blogService.getAll().then((blogs) => {
+      blogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(blogs)
+    })
+  }
+
+  const handleLikeBlog = (blog) => {
+    const newBlog = blog
+    newBlog.likes += 1
+
+    blogService.update(blog.id, newBlog).then(() => sortBlogs())
   }
 
   const handleLogin = async (event) => {
@@ -97,7 +116,7 @@ const App = () => {
         <BlogForm addBlog={handleAddBlog} />
       </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likeBlog={handleLikeBlog} />
       ))}
     </div>
   )
