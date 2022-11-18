@@ -9,6 +9,7 @@ _SpecRunner.html
 __benchmarks__
 build/
 notes/
+counter/
 notes_server/
 remote-repo/
 coverage/
