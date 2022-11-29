@@ -85,6 +85,13 @@ const CreateNew = (props) => {
     navigate('/')
   }
 
+  const handleReset = (e) => {
+    e.preventDefault()
+    content.onChange(e)
+    author.onChange(e)
+    info.onChange(e)
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -102,6 +109,9 @@ const CreateNew = (props) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button type="reset" onClick={(e) => handleReset(e)}>
+          reset
+        </button>
       </form>
     </div>
   )
